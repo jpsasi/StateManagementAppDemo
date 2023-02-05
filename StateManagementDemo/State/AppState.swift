@@ -84,12 +84,12 @@ func combine<Value, Action>(_ reducers: (inout Value, Action) -> Void...) -> (in
     }
 }
 
-let countReducer: (inout AppState, AppAction) -> Void = { (state, action) in
+let countReducer: (inout Int, AppAction) -> Void = { (state, action) in
     switch action {
         case .counter(.incrTapped):
-            state.count += 1
+            state += 1
         case .counter(.decrTapped):
-            state.count -= 1
+            state -= 1
         default:
             break
     }
@@ -121,5 +121,27 @@ let favoritePrimesReducer: (inout AppState, AppAction) -> Void = { (state, actio
     }
 }
 
+func pullback<LocalValue, GlobalValue, Action>(
+    _ reducer: @escaping (inout LocalValue, Action) -> Void,
+    _ f: @escaping (GlobalValue) -> LocalValue
+) -> (inout GlobalValue, Action) -> Void {
+    return { globalValue, action in
+        var localValue = f(globalValue)
+        reducer(&localValue, action)
+    }
+}
+
+func pullback<LocalValue, GlobalValue, Action>(
+    _ reducer: @escaping (inout LocalValue, Action) -> Void,
+    _ value: WritableKeyPath<GlobalValue, LocalValue>
+) -> (inout GlobalValue, Action) -> Void {
+    return { globalValue, action in
+       reducer(&globalValue[keyPath: value], action)
+    }
+}
 //let appReducer: (inout AppState, AppAction) -> Void = combine(countReducer, combine(primeModalReducer, favoritePrimesReducer))
-let appReducer: (inout AppState, AppAction) -> Void = combine(countReducer, primeModalReducer, favoritePrimesReducer)
+let appReducer: (inout AppState, AppAction) -> Void = combine(
+    pullback(countReducer, \.count),
+    primeModalReducer,
+    favoritePrimesReducer)
+
