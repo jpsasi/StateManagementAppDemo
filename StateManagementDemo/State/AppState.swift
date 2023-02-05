@@ -13,12 +13,26 @@ class AppState: ObservableObject {
     @Published var loggedInUser: User? = nil
     @Published var activityFeed: [Activity] = []
     
-    struct Activity {
+    struct Activity: Hashable, Equatable {
         let timeStamp: Date
+        let type: ActivityType
         
-        enum ActivityType {
+        enum ActivityType: Equatable {
             case addedFavoritePrime(Int)
-            case removeFavoritePrime(Int)
+            case removedFavoritePrime(Int)
+        }
+        
+        init(timeStamp: Date = Date(), type: ActivityType) {
+            self.timeStamp = timeStamp
+            self.type = type
+        }
+        
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(self.timeStamp.timeIntervalSince1970)
+        }
+        
+        static func == (lhs: AppState.Activity, rhs: AppState.Activity) -> Bool {
+            return lhs.timeStamp == rhs.timeStamp && lhs.type == rhs.type
         }
     }
     

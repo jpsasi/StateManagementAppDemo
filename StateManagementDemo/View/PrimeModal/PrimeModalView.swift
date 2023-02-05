@@ -17,10 +17,12 @@ struct PrimeModalView: View {
                 if (appState.favoritePrimes.contains(appState.count)) {
                     Button("Remove from Favorite Primes") {
                         appState.favoritePrimes.removeAll(where: {appState.count == $0})
+                        appState.activityFeed.append(AppState.Activity(type: .removedFavoritePrime(appState.count)))
                     }
                 } else {
                     Button("Add to Favorite Primes") {
                         appState.favoritePrimes.append(appState.count)
+                        appState.activityFeed.append(AppState.Activity.init(type: .addedFavoritePrime(appState.count)))
                     }
                 }
             }

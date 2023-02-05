@@ -17,6 +17,7 @@
 		916BEC0B298F6FBA009835DA /* PrimeModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BEC0A298F6FBA009835DA /* PrimeModalView.swift */; };
 		916BEC0D298F6FC7009835DA /* FavoritePrimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BEC0C298F6FC7009835DA /* FavoritePrimesView.swift */; };
 		916BEC0F298F9284009835DA /* WolfAlphaResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BEC0E298F9284009835DA /* WolfAlphaResult.swift */; };
+		916BEC12298F9B6C009835DA /* ActivityFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BEC11298F9B6C009835DA /* ActivityFeedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		916BEC0A298F6FBA009835DA /* PrimeModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimeModalView.swift; sourceTree = "<group>"; };
 		916BEC0C298F6FC7009835DA /* FavoritePrimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePrimesView.swift; sourceTree = "<group>"; };
 		916BEC0E298F9284009835DA /* WolfAlphaResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WolfAlphaResult.swift; sourceTree = "<group>"; };
+		916BEC11298F9B6C009835DA /* ActivityFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityFeedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,8 +65,8 @@
 		916BEBF0298ECA17009835DA /* StateManagementDemo */ = {
 			isa = PBXGroup;
 			children = (
-				916BEC02298ECB86009835DA /* State */,
 				916BEBF1298ECA17009835DA /* StateManagementDemoApp.swift */,
+				916BEC02298ECB86009835DA /* State */,
 				916BEBFF298ECB24009835DA /* View */,
 				916BEBF5298ECA18009835DA /* Assets.xcassets */,
 				916BEBF7298ECA18009835DA /* Preview Content */,
@@ -87,6 +89,7 @@
 				916BEC05298ED3A4009835DA /* CounterView */,
 				916BEC08298F6F96009835DA /* PrimeModal */,
 				916BEC09298F6FA0009835DA /* FavoritePrimes */,
+				916BEC10298F9B45009835DA /* ActivityFeed */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -123,6 +126,14 @@
 				916BEC0C298F6FC7009835DA /* FavoritePrimesView.swift */,
 			);
 			path = FavoritePrimes;
+			sourceTree = "<group>";
+		};
+		916BEC10298F9B45009835DA /* ActivityFeed */ = {
+			isa = PBXGroup;
+			children = (
+				916BEC11298F9B6C009835DA /* ActivityFeedView.swift */,
+			);
+			path = ActivityFeed;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,6 +209,7 @@
 				916BEC0D298F6FC7009835DA /* FavoritePrimesView.swift in Sources */,
 				916BEC07298ED3C4009835DA /* CounterViewModel.swift in Sources */,
 				916BEBF4298ECA17009835DA /* ContentView.swift in Sources */,
+				916BEC12298F9B6C009835DA /* ActivityFeedView.swift in Sources */,
 				916BEBF2298ECA17009835DA /* StateManagementDemoApp.swift in Sources */,
 				916BEC01298ECB37009835DA /* CounterView.swift in Sources */,
 				916BEC0F298F9284009835DA /* WolfAlphaResult.swift in Sources */,

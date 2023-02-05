@@ -18,6 +18,9 @@ struct ContentView: View {
                 NavigationLink("Favorite Primes") {
                     FavoritePrimesView(state: state)
                 }
+                NavigationLink("Activity Feed") {
+                    ActivityFeedView(state: state)
+                }
             }
             .listStyle(.plain)
             .navigationTitle("State Management")
