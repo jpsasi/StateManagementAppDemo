@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CounterView: View {
-    @ObservedObject var state: AppState
+    @ObservedObject var store: Store<AppState>
     @State var primeModalShown: Bool = false
     @State var alertNthPrime: PrimeAlert? = nil
     @State var isNthPrimeButtonDisabled = false
@@ -17,11 +17,11 @@ struct CounterView: View {
         VStack {
             HStack {
                 Button("-") {
-                    state.count -= 1
+                    store.value.count -= 1
                 }
-                Text("\(state.count)")
+                Text("\(store.value.count)")
                 Button("+") {
-                    state.count += 1
+                    store.value.count += 1
                 }
             }
             Button("Is this prime?") {
@@ -29,9 +29,9 @@ struct CounterView: View {
             }
             .padding(EdgeInsets(top: 2, leading: 0, bottom: 0, trailing: 0))
             HStack {
-                Button("What is \(ordinal(state.count)) prime") {
+                Button("What is \(ordinal(store.value.count)) prime") {
                     isNthPrimeButtonDisabled = true
-                    nthPrime(state.count) { result in
+                    nthPrime(store.value.count) { result in
                         isNthPrimeButtonDisabled = false
                         if let result = result {
                             alertNthPrime = PrimeAlert(prime: result)
@@ -49,7 +49,7 @@ struct CounterView: View {
         }
         .sheet(isPresented: $primeModalShown) {
             NavigationView {
-                PrimeModalView(appState: state)
+                PrimeModalView(store: store)
                     .toolbar {
                         Button("Cancel") {
                             primeModalShown = false
@@ -59,7 +59,7 @@ struct CounterView: View {
             .navigationTitle("Prime Modal")
         }
         .alert(item: $alertNthPrime, content: { nthPrime in
-            Alert(title: Text("\(ordinal(state.count)) Prime is \(nthPrime.prime)"))
+            Alert(title: Text("\(ordinal(store.value.count)) Prime is \(nthPrime.prime)"))
         })
         .navigationTitle("Counter View")
     }
@@ -74,7 +74,7 @@ struct CounterView: View {
 struct CounterView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CounterView(state: AppState())
+            CounterView(store: Store<AppState>(initialValue: AppState()))
         }
     }
 }

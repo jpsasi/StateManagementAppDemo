@@ -19,6 +19,7 @@
 		916BEC0F298F9284009835DA /* WolfAlphaResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BEC0E298F9284009835DA /* WolfAlphaResult.swift */; };
 		916BEC12298F9B6C009835DA /* ActivityFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BEC11298F9B6C009835DA /* ActivityFeedView.swift */; };
 		916BEC14298F9DD3009835DA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 916BEC13298F9DD3009835DA /* README.md */; };
+		916BEC17298FC448009835DA /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BEC16298FC448009835DA /* Store.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		916BEC0E298F9284009835DA /* WolfAlphaResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WolfAlphaResult.swift; sourceTree = "<group>"; };
 		916BEC11298F9B6C009835DA /* ActivityFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityFeedView.swift; sourceTree = "<group>"; };
 		916BEC13298F9DD3009835DA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
+		916BEC16298FC448009835DA /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 			isa = PBXGroup;
 			children = (
 				916BEC13298F9DD3009835DA /* README.md */,
+				916BEC15298FC43B009835DA /* Store */,
 				916BEBF1298ECA17009835DA /* StateManagementDemoApp.swift */,
 				916BEC02298ECB86009835DA /* State */,
 				916BEBFF298ECB24009835DA /* View */,
@@ -137,6 +140,14 @@
 				916BEC11298F9B6C009835DA /* ActivityFeedView.swift */,
 			);
 			path = ActivityFeed;
+			sourceTree = "<group>";
+		};
+		916BEC15298FC43B009835DA /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				916BEC16298FC448009835DA /* Store.swift */,
+			);
+			path = Store;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -215,6 +226,7 @@
 				916BEBF4298ECA17009835DA /* ContentView.swift in Sources */,
 				916BEC12298F9B6C009835DA /* ActivityFeedView.swift in Sources */,
 				916BEBF2298ECA17009835DA /* StateManagementDemoApp.swift in Sources */,
+				916BEC17298FC448009835DA /* Store.swift in Sources */,
 				916BEC01298ECB37009835DA /* CounterView.swift in Sources */,
 				916BEC0F298F9284009835DA /* WolfAlphaResult.swift in Sources */,
 				916BEC0B298F6FBA009835DA /* PrimeModalView.swift in Sources */,

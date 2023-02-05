@@ -7,5 +7,8 @@ This version of the app uses plain vannila swiftui
 ### Issues
 - AppState is manipulated in multiple views. It is not scalable
 
-
+### Refactor
+- Change the AppState to Value Type
+- Create a Store Reference Type
+- 
 

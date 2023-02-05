@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct FavoritePrimesView: View {
-    @ObservedObject var state: AppState
+    @ObservedObject var store: Store<AppState>
     
     var body: some View {
         ZStack {
-            if state.favoritePrimes.count > 0 {
+            if store.value.favoritePrimes.count > 0 {
                 List {
-                    ForEach(state.favoritePrimes, id:\.self) {
+                    ForEach(store.value.favoritePrimes, id:\.self) {
                         Text("\($0)")
                     }
                     .onDelete{ indexSet in
                         for index in indexSet {
-                            let prime = state.favoritePrimes[index]
-                            state.favoritePrimes.remove(at: index)
-                            state.activityFeed.append(AppState.Activity.init(type: .removedFavoritePrime(prime)))
+                            let prime = store.value.favoritePrimes[index]
+                            store.value.favoritePrimes.remove(at: index)
+                            store.value.activityFeed.append(AppState.Activity.init(type: .removedFavoritePrime(prime)))
                         }
                     }
                 }
@@ -37,8 +37,8 @@ struct FavoritePrimesView: View {
 
 struct FavoritePrimes_Previews: PreviewProvider {
     static var previews: some View {
-        let appState = AppState()
+        var appState = AppState()
         appState.favoritePrimes.append(contentsOf: [1,2,3,5,7,11])
-        return FavoritePrimesView(state: appState)
+        return FavoritePrimesView(store: Store<AppState>(initialValue: AppState()))
     }
 }

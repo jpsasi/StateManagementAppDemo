@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct ActivityFeedView: View {
-    @ObservedObject var state: AppState
+    @ObservedObject var store: Store<AppState>
     
     var body: some View {
         ZStack {
-            if state.activityFeed.count > 0 {
+            if store.value.activityFeed.count > 0 {
                 List {
-                    ForEach(state.activityFeed, id: \.self) { feed in
+                    ForEach(store.value.activityFeed, id: \.self) { feed in
                         switch feed.type {
                             case let .addedFavoritePrime(prime):
                                 Text("Favorite Prime \(prime) - Added")
@@ -33,6 +33,6 @@ struct ActivityFeedView: View {
 
 struct ActivityFeedView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityFeedView(state: AppState())
+        ActivityFeedView(store: Store<AppState>(initialValue: AppState()))
     }
 }
