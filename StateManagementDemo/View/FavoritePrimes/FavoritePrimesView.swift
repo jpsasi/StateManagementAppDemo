@@ -11,15 +11,27 @@ struct FavoritePrimesView: View {
     @ObservedObject var state: AppState
     
     var body: some View {
-        List {
-            ForEach(state.favoritePrimes, id:\.self) {
-                Text("\($0)")
-            }
-            .onDelete{ indexSet in
-                state.favoritePrimes.remove(atOffsets: indexSet)
+        ZStack {
+            if state.favoritePrimes.count > 0 {
+                List {
+                    ForEach(state.favoritePrimes, id:\.self) {
+                        Text("\($0)")
+                    }
+                    .onDelete{ indexSet in
+                        for index in indexSet {
+                            let prime = state.favoritePrimes[index]
+                            state.favoritePrimes.remove(at: index)
+                            state.activityFeed.append(AppState.Activity.init(type: .removedFavoritePrime(prime)))
+                        }
+                    }
+                }
+                .listStyle(.plain)
+                .navigationTitle("Favorite Primes")
+            } else {
+                Text("No Favoite Primes")
+                .navigationTitle("Favorite Primes")
             }
         }
-        .listStyle(.plain)
     }
 }
 

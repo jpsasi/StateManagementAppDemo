@@ -17,9 +17,9 @@ struct ActivityFeedView: View {
                     ForEach(state.activityFeed, id: \.self) { feed in
                         switch feed.type {
                             case let .addedFavoritePrime(prime):
-                                Text("Added Favorite Prime \(prime)")
+                                Text("Favorite Prime \(prime) - Added")
                             case let .removedFavoritePrime(prime):
-                                Text("Removed Favorite Prime \(prime)")
+                                Text("Favorite Prime \(prime) Removed")
                         }
                     }
                 }
@@ -27,6 +27,7 @@ struct ActivityFeedView: View {
                 Text("No Activities")
             }
         }
+        .navigationTitle("Activity Feed")
     }
 }
 

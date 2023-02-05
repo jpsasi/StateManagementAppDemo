@@ -18,6 +18,7 @@
 		916BEC0D298F6FC7009835DA /* FavoritePrimesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BEC0C298F6FC7009835DA /* FavoritePrimesView.swift */; };
 		916BEC0F298F9284009835DA /* WolfAlphaResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BEC0E298F9284009835DA /* WolfAlphaResult.swift */; };
 		916BEC12298F9B6C009835DA /* ActivityFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BEC11298F9B6C009835DA /* ActivityFeedView.swift */; };
+		916BEC14298F9DD3009835DA /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 916BEC13298F9DD3009835DA /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		916BEC0C298F6FC7009835DA /* FavoritePrimesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePrimesView.swift; sourceTree = "<group>"; };
 		916BEC0E298F9284009835DA /* WolfAlphaResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WolfAlphaResult.swift; sourceTree = "<group>"; };
 		916BEC11298F9B6C009835DA /* ActivityFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityFeedView.swift; sourceTree = "<group>"; };
+		916BEC13298F9DD3009835DA /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 		916BEBF0298ECA17009835DA /* StateManagementDemo */ = {
 			isa = PBXGroup;
 			children = (
+				916BEC13298F9DD3009835DA /* README.md */,
 				916BEBF1298ECA17009835DA /* StateManagementDemoApp.swift */,
 				916BEC02298ECB86009835DA /* State */,
 				916BEBFF298ECB24009835DA /* View */,
@@ -194,6 +197,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				916BEC14298F9DD3009835DA /* README.md in Resources */,
 				916BEBF9298ECA18009835DA /* Preview Assets.xcassets in Resources */,
 				916BEBF6298ECA18009835DA /* Assets.xcassets in Resources */,
 			);
