@@ -10,10 +10,11 @@ This version of the app uses plain vannila swiftui
 - Mutation logic is moved to Reducer
 - Reducer takes the State along with Action, will return the new State
 
+- Reducers splitted in to small reducers and combined all the reducers to create the appReducer
+
 ### Issues
-- Eventhough we have 3 different screen, all the reducer implementation is done in single appReducer
+- Each reducer takes the whole AppState and AppAction eventhough it process the subsets
 
 ### Refactor
-- Define small reducer per screen
-- Combine all the small reducers
+- Define the Simpler AppState relavent for the reducer
 
