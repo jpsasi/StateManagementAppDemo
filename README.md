@@ -4,12 +4,16 @@ This application demonstrate how to use the State management in SwiftUI Applicat
 
 This version of the app uses plain vannila swiftui 
 
+- Store reference type is introduced
+- AppState made as value type
+- All the user actions are defined as enums
+- Mutation logic is moved to Reducer
+- Reducer takes the State along with Action, will return the new State
+
 ### Issues
-- AppState is manipulated in multiple views. It is not scalable
+- Eventhough we have 3 different screen, all the reducer implementation is done in single appReducer
 
 ### Refactor
-- Change the AppState to Value Type
-- Create a Store Reference Type
-- Define Action enum for all the user actions
-- Define Reducer to process the Action to return the new AppState
+- Define small reducer per screen
+- Combine all the small reducers
 
