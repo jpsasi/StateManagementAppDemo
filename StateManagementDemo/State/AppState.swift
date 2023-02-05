@@ -13,6 +13,16 @@ struct AppState  {
     var loggedInUser: User? = nil
     var activityFeed: [Activity] = []
     
+    var favoritePrimesState: FavoritePrimesState {
+        get {
+            return FavoritePrimesState(favoritePrimes: favoritePrimes,
+                                       activityFeed: activityFeed)
+        }
+        set {
+            favoritePrimes = newValue.favoritePrimes
+            activityFeed = newValue.activityFeed
+        }
+    }
     struct Activity: Hashable, Equatable {
         let timeStamp: Date
         let type: ActivityType
@@ -41,6 +51,11 @@ struct AppState  {
         let name: String
         let bio: String
     }
+}
+
+struct FavoritePrimesState {
+    var favoritePrimes: [Int]
+    var activityFeed:[AppState.Activity]
 }
 
 struct PrimeAlert: Identifiable {
@@ -108,7 +123,7 @@ let primeModalReducer: (inout AppState, AppAction) -> Void = { (state, action) i
     }
 }
 
-let favoritePrimesReducer: (inout AppState, AppAction) -> Void = { (state, action) in
+let favoritePrimesReducer: (inout FavoritePrimesState, AppAction) -> Void = { (state, action) in
     switch action {
         case let .favoritePrimes(.deleteFavoritePrimes(indexSet)):
             for index in indexSet {
@@ -143,5 +158,5 @@ func pullback<LocalValue, GlobalValue, Action>(
 let appReducer: (inout AppState, AppAction) -> Void = combine(
     pullback(countReducer, \.count),
     primeModalReducer,
-    favoritePrimesReducer)
+    pullback(favoritePrimesReducer, \.favoritePrimesState))
 

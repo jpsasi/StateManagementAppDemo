@@ -11,10 +11,11 @@ This version of the app uses plain vannila swiftui
 - Reducer takes the State along with Action, will return the new State
 
 - Reducers splitted in to small reducers and combined all the reducers to create the appReducer
+- Reducers are modified to operate with relavent data instead of whole app state
 
 ### Issues
-- Each reducer takes the whole AppState and AppAction eventhough it process the subsets
+- reducer is operating on whole AppAction
 
 ### Refactor
-- Define the Simpler AppState relavent for the reducer
+- Split the AppAction in to smaller unit and pullback to create the AppAction
 
