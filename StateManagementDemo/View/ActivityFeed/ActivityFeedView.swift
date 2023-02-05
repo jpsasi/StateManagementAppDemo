@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ActivityFeedView: View {
-    @ObservedObject var store: Store<AppState>
+    @ObservedObject var store: Store<AppState, CounterAction>
     
     var body: some View {
         ZStack {
@@ -23,6 +23,7 @@ struct ActivityFeedView: View {
                         }
                     }
                 }
+                .listStyle(.plain)
             } else {
                 Text("No Activities")
             }
@@ -33,6 +34,6 @@ struct ActivityFeedView: View {
 
 struct ActivityFeedView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityFeedView(store: Store<AppState>(initialValue: AppState()))
+        ActivityFeedView(store: Store(initialValue: AppState(), reducer: counterReducer))
     }
 }

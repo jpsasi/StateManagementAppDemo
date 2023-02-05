@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PrimeModalView: View {
-    @ObservedObject var store: Store<AppState>
+    @ObservedObject var store: Store<AppState, CounterAction>
     
     var body: some View {
         if isPrime(store.value.count) {
@@ -45,6 +45,6 @@ struct PrimeModalView: View {
 
 struct PrimeModalView_Previews: PreviewProvider {
     static var previews: some View {
-        PrimeModalView(store: Store(initialValue: AppState()))
+        PrimeModalView(store: Store(initialValue: AppState(), reducer: counterReducer))
     }
 }

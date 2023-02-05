@@ -47,3 +47,19 @@ struct PrimeAlert: Identifiable {
     let prime: Int
     var id: Int { self.prime }
 }
+
+enum CounterAction {
+    case incrTapped
+    case decrTapped
+}
+
+let counterReducer: (AppState, CounterAction) -> AppState = { (state, action) in
+    var copy = state
+    switch action {
+        case .incrTapped:
+            copy.count += 1
+        case .decrTapped:
+            copy.count -= 1
+    }
+    return copy
+}

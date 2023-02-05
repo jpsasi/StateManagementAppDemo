@@ -10,5 +10,6 @@ This version of the app uses plain vannila swiftui
 ### Refactor
 - Change the AppState to Value Type
 - Create a Store Reference Type
-- 
+- Define Action enum for User Actions
+- Define Reducer to process the Action to return the new AppState
 

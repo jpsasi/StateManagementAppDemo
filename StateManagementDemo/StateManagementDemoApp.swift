@@ -11,7 +11,7 @@ import SwiftUI
 struct StateManagementDemoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(store: Store<AppState>(initialValue: AppState()))
+            ContentView(store: Store(initialValue: AppState(), reducer: counterReducer))
         }
     }
 }
