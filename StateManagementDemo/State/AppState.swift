@@ -48,18 +48,52 @@ struct PrimeAlert: Identifiable {
     var id: Int { self.prime }
 }
 
+enum AppAction {
+    case counter(CounterAction)
+    case primeModal(PrimeModalAction)
+    case favoritePrimes(FavoritePrimeAction)
+}
+
 enum CounterAction {
     case incrTapped
     case decrTapped
 }
 
-let counterReducer: (AppState, CounterAction) -> AppState = { (state, action) in
-    var copy = state
+enum PrimeModalAction {
+    case saveFavoritePrimeTapped
+    case removeFavoritePrimeTapped
+}
+
+enum FavoritePrimeAction {
+    case deleteFavoritePrimes(IndexSet)
+}
+
+let appReducer: (inout AppState, AppAction) -> Void = { (state, action) in
     switch action {
-        case .incrTapped:
-            copy.count += 1
-        case .decrTapped:
-            copy.count -= 1
+        case let .counter(counterAction):
+            switch counterAction {
+                case .incrTapped:
+                    state.count += 1
+                case .decrTapped:
+                    state.count -= 1
+            }
+        case let .primeModal(primeModalAction):
+            switch primeModalAction {
+                case .saveFavoritePrimeTapped:
+                    state.favoritePrimes.append(state.count)
+                    state.activityFeed.append(AppState.Activity.init(type: .addedFavoritePrime(state.count)))
+                case .removeFavoritePrimeTapped:
+                    state.favoritePrimes.removeAll(where: {state.count == $0})
+                    state.activityFeed.append(AppState.Activity(type: .removedFavoritePrime(state.count)))
+            }
+        case let .favoritePrimes(favoritePrimesAction):
+            switch favoritePrimesAction {
+                case let .deleteFavoritePrimes(indexSet):
+                    for index in indexSet {
+                        let prime = state.favoritePrimes[index]
+                        state.favoritePrimes.remove(at: index)
+                        state.activityFeed.append(AppState.Activity.init(type: .removedFavoritePrime(prime)))
+                    }
+            }
     }
-    return copy
 }

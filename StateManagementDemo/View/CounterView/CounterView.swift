@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CounterView: View {
-    @ObservedObject var store: Store<AppState, CounterAction>
+    @ObservedObject var store: Store<AppState, AppAction>
     @State var primeModalShown: Bool = false
     @State var alertNthPrime: PrimeAlert? = nil
     @State var isNthPrimeButtonDisabled = false
@@ -17,11 +17,11 @@ struct CounterView: View {
         VStack {
             HStack {
                 Button("-") {
-                    store.send(.decrTapped)
+                    store.send(.counter(.decrTapped))
                 }
                 Text("\(store.value.count)")
                 Button("+") {
-                    store.send(.incrTapped)
+                    store.send(.counter(.incrTapped))
                 }
             }
             Button("Is this prime?") {
@@ -74,7 +74,7 @@ struct CounterView: View {
 struct CounterView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CounterView(store: Store(initialValue: AppState(), reducer: counterReducer))
+            CounterView(store: Store(initialValue: AppState(), reducer: appReducer))
         }
     }
 }
