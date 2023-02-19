@@ -87,6 +87,21 @@ enum AppAction {
     case counter(CounterAction)
     case primeModal(PrimeModalAction)
     case favoritePrimes(FavoritePrimeAction)
+    
+    var counter: CounterAction? {
+        get {
+            guard case let .counter(counterAction) = self else {
+                return nil
+            }
+            return counterAction
+        }
+        set {
+            guard case.counter = self, let newValue = newValue else {
+                return
+            }
+            self = .counter(newValue)
+        }
+    }
 }
 
 enum CounterAction {
@@ -103,14 +118,12 @@ enum FavoritePrimeAction {
     case deleteFavoritePrimes(IndexSet)
 }
 
-let countReducer: (inout Int, AppAction) -> Void = { (state, action) in
+let countReducer: (inout Int, CounterAction) -> Void = { (state, action) in
     switch action {
-        case .counter(.incrTapped):
+        case .incrTapped:
             state += 1
-        case .counter(.decrTapped):
+        case .decrTapped:
             state -= 1
-        default:
-            break
     }
 }
 
@@ -140,43 +153,9 @@ let favoritePrimesReducer: (inout FavoritePrimesState, AppAction) -> Void = { (s
     }
 }
 
-func combine<Value, Action>(_ first: @escaping (inout Value, Action) -> Void,
-                            _ second: @escaping (inout Value, Action) -> Void) -> (inout Value, Action) -> Void {
-    return { value,action in
-        first(&value, action)
-        second(&value, action)
-    }
-}
-
-func combine<Value, Action>(_ reducers: (inout Value, Action) -> Void...) -> (inout Value, Action) -> Void {
-    return { value, action in
-        for reducer in reducers {
-            reducer(&value, action)
-        }
-    }
-}
-
-func pullback<LocalValue, GlobalValue, Action>(
-    _ reducer: @escaping (inout LocalValue, Action) -> Void,
-    _ f: @escaping (GlobalValue) -> LocalValue
-) -> (inout GlobalValue, Action) -> Void {
-    return { globalValue, action in
-        var localValue = f(globalValue)
-        reducer(&localValue, action)
-    }
-}
-
-func pullback<LocalValue, GlobalValue, Action>(
-    _ reducer: @escaping (inout LocalValue, Action) -> Void,
-    _ value: WritableKeyPath<GlobalValue, LocalValue>
-) -> (inout GlobalValue, Action) -> Void {
-    return { globalValue, action in
-       reducer(&globalValue[keyPath: value], action)
-    }
-}
 //let appReducer: (inout AppState, AppAction) -> Void = combine(countReducer, combine(primeModalReducer, favoritePrimesReducer))
 let appReducer: (inout AppState, AppAction) -> Void = combine(
-    pullback(countReducer, \.count),
+    pullback(countReducer, \.count, \.counter),
     pullback(primeModalReducer, \.primeModalState),
     pullback(favoritePrimesReducer, \.favoritePrimesState))
 

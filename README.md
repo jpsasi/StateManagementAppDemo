@@ -12,10 +12,11 @@ This version of the app uses plain vannila swiftui
 
 - Reducers splitted in to small reducers and combined all the reducers to create the appReducer
 - Reducers are modified to operate with relavent data instead of whole app state
+- counterReducer is modified to work with CounterAction (Pullback is created to work with both State and Action)
 
 ### Issues
 - reducer is operating on whole AppAction
 
 ### Refactor
-- Split the AppAction in to smaller unit and pullback to create the AppAction
+- Modify the code PrimeModal and FavoritePrimes to work with respective actions
 
