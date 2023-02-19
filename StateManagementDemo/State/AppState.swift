@@ -23,6 +23,20 @@ struct AppState  {
             activityFeed = newValue.activityFeed
         }
     }
+    
+    var primeModalState: PrimeModalState {
+        get {
+            return PrimeModalState(count: count,
+                                   favoritePrimes: favoritePrimes,
+                                   activityFeed: activityFeed)
+        }
+        set {
+            count = newValue.count
+            favoritePrimes = newValue.favoritePrimes
+            activityFeed = newValue.activityFeed
+        }
+    }
+    
     struct Activity: Hashable, Equatable {
         let timeStamp: Date
         let type: ActivityType
@@ -51,6 +65,12 @@ struct AppState  {
         let name: String
         let bio: String
     }
+}
+
+struct PrimeModalState {
+    let count: Int
+    var favoritePrimes: [Int]
+    var activityFeed: [AppState.Activity]
 }
 
 struct FavoritePrimesState {
@@ -83,22 +103,6 @@ enum FavoritePrimeAction {
     case deleteFavoritePrimes(IndexSet)
 }
 
-func combine<Value, Action>(_ first: @escaping (inout Value, Action) -> Void,
-                            _ second: @escaping (inout Value, Action) -> Void) -> (inout Value, Action) -> Void {
-    return { value,action in
-        first(&value, action)
-        second(&value, action)
-    }
-}
-
-func combine<Value, Action>(_ reducers: (inout Value, Action) -> Void...) -> (inout Value, Action) -> Void {
-    return { value, action in
-        for reducer in reducers {
-            reducer(&value, action)
-        }
-    }
-}
-
 let countReducer: (inout Int, AppAction) -> Void = { (state, action) in
     switch action {
         case .counter(.incrTapped):
@@ -110,7 +114,7 @@ let countReducer: (inout Int, AppAction) -> Void = { (state, action) in
     }
 }
 
-let primeModalReducer: (inout AppState, AppAction) -> Void = { (state, action) in
+let primeModalReducer: (inout PrimeModalState, AppAction) -> Void = { (state, action) in
     switch action {
         case .primeModal(.saveFavoritePrimeTapped):
             state.favoritePrimes.append(state.count)
@@ -136,6 +140,22 @@ let favoritePrimesReducer: (inout FavoritePrimesState, AppAction) -> Void = { (s
     }
 }
 
+func combine<Value, Action>(_ first: @escaping (inout Value, Action) -> Void,
+                            _ second: @escaping (inout Value, Action) -> Void) -> (inout Value, Action) -> Void {
+    return { value,action in
+        first(&value, action)
+        second(&value, action)
+    }
+}
+
+func combine<Value, Action>(_ reducers: (inout Value, Action) -> Void...) -> (inout Value, Action) -> Void {
+    return { value, action in
+        for reducer in reducers {
+            reducer(&value, action)
+        }
+    }
+}
+
 func pullback<LocalValue, GlobalValue, Action>(
     _ reducer: @escaping (inout LocalValue, Action) -> Void,
     _ f: @escaping (GlobalValue) -> LocalValue
@@ -157,6 +177,6 @@ func pullback<LocalValue, GlobalValue, Action>(
 //let appReducer: (inout AppState, AppAction) -> Void = combine(countReducer, combine(primeModalReducer, favoritePrimesReducer))
 let appReducer: (inout AppState, AppAction) -> Void = combine(
     pullback(countReducer, \.count),
-    primeModalReducer,
+    pullback(primeModalReducer, \.primeModalState),
     pullback(favoritePrimesReducer, \.favoritePrimesState))
 
