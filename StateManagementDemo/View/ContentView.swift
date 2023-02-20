@@ -13,11 +13,12 @@ struct ContentView: View {
         NavigationView {
             List {
                 NavigationLink("Counter Demo") {
-                    CounterView(store: store.view({ $0.counterState
-                    }))
+                    CounterView(store: store.view(value: { $0.counterState
+                    }, action: {$0}))
                 }
                 NavigationLink("Favorite Primes") {
-                    FavoritePrimesView(store: store.view({ $0.favoritePrimesState
+                    FavoritePrimesView(store: store.view(value: { $0.favoritePrimesState
+                    }, action: { AppAction.favoritePrimes($0)
                     }))
                 }
                 NavigationLink("Activity Feed") {

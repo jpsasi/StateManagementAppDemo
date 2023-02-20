@@ -49,7 +49,9 @@ struct CounterView: View {
         }
         .sheet(isPresented: $primeModalShown) {
             NavigationView {
-                PrimeModalView(store: store)
+                PrimeModalView(store: store.view(value: { $0
+                }, action: { AppAction.primeModal($0)
+                }))
                     .toolbar {
                         Button("Cancel") {
                             primeModalShown = false
@@ -74,8 +76,7 @@ struct CounterView: View {
 struct CounterView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CounterView(store: Store(initialValue: AppState(), reducer: appReducer).view({ $0.counterState
-            }))
+            CounterView(store: Store(initialValue: AppState(), reducer: appReducer).view({$0.counterState}))
         }
     }
 }

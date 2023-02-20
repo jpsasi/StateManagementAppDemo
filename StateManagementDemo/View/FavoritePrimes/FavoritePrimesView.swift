@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FavoritePrimesView: View {
-    @ObservedObject var store: Store<FavoritePrimesState, AppAction>
+    @ObservedObject var store: Store<FavoritePrimesState, FavoritePrimeAction>
     
     var body: some View {
         ZStack {
@@ -18,7 +18,7 @@ struct FavoritePrimesView: View {
                         Text("\($0)")
                     }
                     .onDelete{ indexSet in
-                        store.send(.favoritePrimes(.deleteFavoritePrimes(indexSet)))
+                        store.send(.deleteFavoritePrimes(indexSet))
                     }
                 }
                 .listStyle(.plain)
@@ -36,7 +36,8 @@ struct FavoritePrimes_Previews: PreviewProvider {
         var appState = AppState()
         appState.favoritePrimes.append(contentsOf: [1,2,3,5,7,11])
         let store = Store(initialValue: AppState(), reducer: appReducer)
-        return FavoritePrimesView(store: store.view({ $0.favoritePrimesState
+        return FavoritePrimesView(store: store.view(value: { $0.favoritePrimesState
+        }, action: { AppAction.favoritePrimes($0)
         }))
     }
 }
