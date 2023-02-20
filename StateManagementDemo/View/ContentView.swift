@@ -14,7 +14,14 @@ struct ContentView: View {
             List {
                 NavigationLink("Counter Demo") {
                     CounterView(store: store.view(value: { $0.counterState
-                    }, action: {$0}))
+                    }, action: {
+                        switch $0 {
+                            case let .counter(counterAction):
+                                return AppAction.counter(counterAction)
+                            case let .primeModal(primeModalAction):
+                                return AppAction.primeModal(primeModalAction)
+                        }
+                    }))
                 }
                 NavigationLink("Favorite Primes") {
                     FavoritePrimesView(store: store.view(value: { $0.favoritePrimesState

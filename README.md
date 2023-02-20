@@ -15,10 +15,11 @@ This version of the app uses plain vannila swiftui
 - counterReducer is modified to work with CounterAction (Pullback is created to work with both State and Action)
 - primeModalReducer and favoritePrimesReducer are modified to work with the respective actions
 - All the Store objects are update to with limited visivility state
+- All the store objects are updated with limited visibility actions
 
 ### Issues
-- All the stores are having access to full AppAction.
+Side Effects are not composable
 
 ### Refactor
-- Modify the Store to work only with limited Actions which is required for that screen
+Enhance the store to handle the side effects
 

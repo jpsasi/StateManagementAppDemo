@@ -7,8 +7,13 @@
 
 import SwiftUI
 
+enum CounterViewAction {
+    case counter(CounterAction)
+    case primeModal(PrimeModalAction)
+}
+
 struct CounterView: View {
-    @ObservedObject var store: Store<CounterState, AppAction>
+    @ObservedObject var store: Store<CounterState, CounterViewAction>
     @State var primeModalShown: Bool = false
     @State var alertNthPrime: PrimeAlert? = nil
     @State var isNthPrimeButtonDisabled = false
@@ -50,7 +55,7 @@ struct CounterView: View {
         .sheet(isPresented: $primeModalShown) {
             NavigationView {
                 PrimeModalView(store: store.view(value: { $0
-                }, action: { AppAction.primeModal($0)
+                }, action: { .primeModal($0)
                 }))
                     .toolbar {
                         Button("Cancel") {
@@ -76,7 +81,13 @@ struct CounterView: View {
 struct CounterView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            CounterView(store: Store(initialValue: AppState(), reducer: appReducer).view({$0.counterState}))
+            CounterView(store: Store(initialValue: AppState(), reducer: appReducer).view(value: {$0.counterState}, action: { switch $0 {
+                case let .primeModal(primeModalAction):
+                    return AppAction.primeModal(primeModalAction)
+                case let .counter(counterAction):
+                    return AppAction.counter(counterAction)
+            }
+            }))
         }
     }
 }
