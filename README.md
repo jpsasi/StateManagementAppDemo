@@ -14,10 +14,11 @@ This version of the app uses plain vannila swiftui
 - Reducers are modified to operate with relavent data instead of whole app state
 - counterReducer is modified to work with CounterAction (Pullback is created to work with both State and Action)
 - primeModalReducer and favoritePrimesReducer are modified to work with the respective actions
+- All the Store objects are update to with limited visivility state
 
 ### Issues
-- All the screens are having access to the Store which has full AppState and AppAction
+- All the stores are having access to full AppAction.
 
 ### Refactor
-- Modify the Store to increase small Store with required visibility of the State and Action
+- Modify the Store to work only with limited Actions which is required for that screen
 

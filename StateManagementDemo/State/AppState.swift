@@ -13,6 +13,17 @@ struct AppState  {
     var loggedInUser: User? = nil
     var activityFeed: [Activity] = []
     
+    var counterState: CounterState {
+        get {
+            return CounterState(count: count, favoritePrimes: favoritePrimes, activityFeed: activityFeed)
+        }
+        set {
+            count = newValue.count
+            favoritePrimes = newValue.favoritePrimes
+            activityFeed = newValue.activityFeed
+        }
+    }
+    
     var favoritePrimesState: FavoritePrimesState {
         get {
             return FavoritePrimesState(favoritePrimes: favoritePrimes,
@@ -66,12 +77,8 @@ struct AppState  {
         let bio: String
     }
 }
-
-struct PrimeModalState {
-    let count: Int
-    var favoritePrimes: [Int]
-    var activityFeed: [AppState.Activity]
-}
+typealias CounterState = (count: Int, favoritePrimes: [Int], activityFeed: [AppState.Activity])
+typealias PrimeModalState = (count: Int, favoritePrimes: [Int], activityFeed: [AppState.Activity])
 
 struct FavoritePrimesState {
     var favoritePrimes: [Int]

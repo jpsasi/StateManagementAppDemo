@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FavoritePrimesView: View {
-    @ObservedObject var store: Store<AppState, AppAction>
+    @ObservedObject var store: Store<FavoritePrimesState, AppAction>
     
     var body: some View {
         ZStack {
@@ -35,6 +35,8 @@ struct FavoritePrimes_Previews: PreviewProvider {
     static var previews: some View {
         var appState = AppState()
         appState.favoritePrimes.append(contentsOf: [1,2,3,5,7,11])
-        return FavoritePrimesView(store: Store(initialValue: AppState(), reducer: appReducer))
+        let store = Store(initialValue: AppState(), reducer: appReducer)
+        return FavoritePrimesView(store: store.view({ $0.favoritePrimesState
+        }))
     }
 }
