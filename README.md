@@ -16,6 +16,7 @@ This version of the app uses plain vannila swiftui
 - primeModalReducer and favoritePrimesReducer are modified to work with the respective actions
 - All the Store objects are update to with limited visivility state
 - All the store objects are updated with limited visibility actions
+- Toolset is updated now to handle the effect
 
 ### Issues
 Side Effects are not composable

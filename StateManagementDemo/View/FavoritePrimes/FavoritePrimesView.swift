@@ -17,15 +17,36 @@ struct FavoritePrimesView: View {
                     ForEach(store.value.favoritePrimes, id:\.self) {
                         Text("\($0)")
                     }
-                    .onDelete{ indexSet in
+                    .onDelete { indexSet in
                         store.send(.deleteFavoritePrimes(indexSet))
                     }
                 }
                 .listStyle(.plain)
                 .navigationTitle("Favorite Primes")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        addToolBarItems()
+                    }
+                }
             } else {
                 Text("No Favoite Primes")
-                .navigationTitle("Favorite Primes")
+                    .navigationTitle("Favorite Primes")
+                .toolbar {
+                    ToolbarItem {
+                        addToolBarItems()
+                    }
+                }
+            }
+        }
+    }
+    
+    func addToolBarItems() -> some View {
+        HStack {
+            Button("Save") {
+                print("Sample")
+            }
+            Button("Load") {
+                print("Load")
             }
         }
     }
@@ -36,8 +57,10 @@ struct FavoritePrimes_Previews: PreviewProvider {
         var appState = AppState()
         appState.favoritePrimes.append(contentsOf: [1,2,3,5,7,11])
         let store = Store(initialValue: AppState(), reducer: appReducer)
-        return FavoritePrimesView(store: store.view(value: { $0.favoritePrimesState
-        }, action: { AppAction.favoritePrimes($0)
-        }))
+        return NavigationView {
+            FavoritePrimesView(store: store.view(value: { $0.favoritePrimesState
+            }, action: { AppAction.favoritePrimes($0)
+            }))
+        }
     }
 }
