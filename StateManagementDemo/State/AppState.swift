@@ -15,7 +15,9 @@ struct AppState  {
     
     var counterState: CounterState {
         get {
-            return CounterState(count: count, favoritePrimes: favoritePrimes, activityFeed: activityFeed)
+            return CounterState(count: count,
+                                favoritePrimes: favoritePrimes,
+                                activityFeed: activityFeed)
         }
         set {
             count = newValue.count
@@ -155,27 +157,31 @@ enum FavoritePrimeAction {
     case deleteFavoritePrimes(IndexSet)
 }
 
-let countReducer: (inout Int, CounterAction) -> Void = { (state, action) in
+let countReducer: Reducer<Int, CounterAction> = { (state, action) in
     switch action {
         case .incrTapped:
             state += 1
+            return {}
         case .decrTapped:
             state -= 1
+            return {}
     }
 }
 
-let primeModalReducer: (inout PrimeModalState, PrimeModalAction) -> Void = { (state, action) in
+let primeModalReducer: Reducer<PrimeModalState, PrimeModalAction> = { (state, action) in
     switch action {
         case .saveFavoritePrimeTapped:
             state.favoritePrimes.append(state.count)
             state.activityFeed.append(AppState.Activity.init(type: .addedFavoritePrime(state.count)))
+            return {}
         case .removeFavoritePrimeTapped:
             state.favoritePrimes.removeAll(where: {state.count == $0})
             state.activityFeed.append(AppState.Activity(type: .removedFavoritePrime(state.count)))
+            return {}
     }
 }
 
-let favoritePrimesReducer: (inout FavoritePrimesState, FavoritePrimeAction) -> Void = { (state, action) in
+let favoritePrimesReducer: Reducer<FavoritePrimesState, FavoritePrimeAction>  = { (state, action) in
     switch action {
         case let .deleteFavoritePrimes(indexSet):
             for index in indexSet {
@@ -183,11 +189,12 @@ let favoritePrimesReducer: (inout FavoritePrimesState, FavoritePrimeAction) -> V
                 state.favoritePrimes.remove(at: index)
                 state.activityFeed.append(AppState.Activity.init(type: .removedFavoritePrime(prime)))
             }
+            return {}
     }
 }
 
 //let appReducer: (inout AppState, AppAction) -> Void = combine(countReducer, combine(primeModalReducer, favoritePrimesReducer))
-let appReducer: (inout AppState, AppAction) -> Void = combine(
+let appReducer: Reducer<AppState, AppAction> = combine(
     pullback(countReducer, \.count, \.counter),
     pullback(primeModalReducer, \.primeModalState, \.primeModal),
     pullback(favoritePrimesReducer, \.favoritePrimesState, \.favoritePrimes))
