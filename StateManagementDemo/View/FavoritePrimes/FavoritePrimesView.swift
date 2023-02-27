@@ -31,11 +31,11 @@ struct FavoritePrimesView: View {
             } else {
                 Text("No Favoite Primes")
                     .navigationTitle("Favorite Primes")
-                .toolbar {
-                    ToolbarItem {
-                        addToolBarItems()
+                    .toolbar {
+                        ToolbarItem {
+                            addToolBarItems()
+                        }
                     }
-                }
             }
         }
     }
@@ -43,10 +43,10 @@ struct FavoritePrimesView: View {
     func addToolBarItems() -> some View {
         HStack {
             Button("Save") {
-                print("Sample")
+                store.send(.saveButtonTapped)
             }
             Button("Load") {
-                print("Load")
+                store.send(.loadButtonTapped)
             }
         }
     }

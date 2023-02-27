@@ -17,10 +17,11 @@ This version of the app uses plain vannila swiftui
 - All the Store objects are update to with limited visivility state
 - All the store objects are updated with limited visibility actions
 - Toolset is updated now to handle the effect
+- Synchronous side effect implemented to load and save the favorite primes
 
 ### Issues
-Side Effects are not composable
+Synchronous Sideeffect will block the UI
 
 ### Refactor
-Enhance the store to handle the side effects
+Introduce the Async Effect
 

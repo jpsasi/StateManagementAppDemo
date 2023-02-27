@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AppState  {
+struct AppState: Codable  {
     var count = 0
     var favoritePrimes:[Int] = []
     var loggedInUser: User? = nil
@@ -50,11 +50,11 @@ struct AppState  {
         }
     }
     
-    struct Activity: Hashable, Equatable {
+    struct Activity: Hashable, Equatable, Codable {
         let timeStamp: Date
         let type: ActivityType
         
-        enum ActivityType: Equatable {
+        enum ActivityType: Equatable, Codable {
             case addedFavoritePrime(Int)
             case removedFavoritePrime(Int)
         }
@@ -73,7 +73,7 @@ struct AppState  {
         }
     }
     
-    struct User {
+    struct User: Codable {
         let id: Int
         let name: String
         let bio: String
@@ -82,7 +82,7 @@ struct AppState  {
 typealias CounterState = (count: Int, favoritePrimes: [Int], activityFeed: [AppState.Activity])
 typealias PrimeModalState = (count: Int, favoritePrimes: [Int], activityFeed: [AppState.Activity])
 
-struct FavoritePrimesState {
+struct FavoritePrimesState: Codable {
     var favoritePrimes: [Int]
     var activityFeed:[AppState.Activity]
 }
@@ -155,16 +155,19 @@ enum PrimeModalAction {
 
 enum FavoritePrimeAction {
     case deleteFavoritePrimes(IndexSet)
+    case loadedFavoritePrimes([Int])
+    case loadButtonTapped
+    case saveButtonTapped
 }
 
 let countReducer: Reducer<Int, CounterAction> = { (state, action) in
     switch action {
         case .incrTapped:
             state += 1
-            return {}
+            return []
         case .decrTapped:
             state -= 1
-            return {}
+            return []
     }
 }
 
@@ -173,11 +176,11 @@ let primeModalReducer: Reducer<PrimeModalState, PrimeModalAction> = { (state, ac
         case .saveFavoritePrimeTapped:
             state.favoritePrimes.append(state.count)
             state.activityFeed.append(AppState.Activity.init(type: .addedFavoritePrime(state.count)))
-            return {}
+            return []
         case .removeFavoritePrimeTapped:
             state.favoritePrimes.removeAll(where: {state.count == $0})
             state.activityFeed.append(AppState.Activity(type: .removedFavoritePrime(state.count)))
-            return {}
+            return []
     }
 }
 
@@ -189,7 +192,36 @@ let favoritePrimesReducer: Reducer<FavoritePrimesState, FavoritePrimeAction>  = 
                 state.favoritePrimes.remove(at: index)
                 state.activityFeed.append(AppState.Activity.init(type: .removedFavoritePrime(prime)))
             }
-            return {}
+            return []
+        case let .loadedFavoritePrimes(favoritePrimes):
+            state.favoritePrimes = favoritePrimes
+            return []
+        case .loadButtonTapped:
+            return [ loadFavoritePrimeEffect()]
+        case .saveButtonTapped:
+            return [saveFavoritePrimeEffect(favoritePrimes: state.favoritePrimes)]
+    }
+}
+
+private func saveFavoritePrimeEffect(favoritePrimes: [Int]) -> Effect<FavoritePrimeAction> {
+    return {
+        let data = try! JSONEncoder().encode(favoritePrimes)
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let documentsUrl = URL(fileURLWithPath: documentsPath)
+        let url = documentsUrl.appending(path: "favorite-primes.json")
+        try! data.write(to: url)
+        return nil
+    }
+}
+
+private func loadFavoritePrimeEffect() -> Effect<FavoritePrimeAction> {
+    return { () -> FavoritePrimeAction? in
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let documentsUrl = URL(fileURLWithPath: documentsPath)
+        let url = documentsUrl.appending(path: "favorite-primes.json")
+        guard let data = try? Data(contentsOf: url),
+              let favoritesPrimes = try? JSONDecoder().decode([Int].self, from: data) else { return nil }
+        return .loadedFavoritePrimes(favoritesPrimes)
     }
 }
 
